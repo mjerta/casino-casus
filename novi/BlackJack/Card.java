@@ -1,9 +1,8 @@
 package novi.BlackJack;
 
 public class Card {
-  private CardSuit suit;
-  private CardValue value;
-
+  private final CardSuit suit;
+  private final CardValue value;
 
   public Card(CardSuit suit,  CardValue value) {
     this.suit = suit;
@@ -11,7 +10,7 @@ public class Card {
   }
 
   public String render() {
-    return "";
+    return String.format("%s of %s", suit, value);
   }
 
   public int getValue() {

@@ -13,4 +13,16 @@ public class CardSuit {
     this.symbol = symbol;
     this.color = color;
   }
+
+  public String getName() {
+    return name;
+  }
+
+  public char getSymbol() {
+    return symbol;
+  }
+
+  public String getColor() {
+    return color;
+  }
 }
