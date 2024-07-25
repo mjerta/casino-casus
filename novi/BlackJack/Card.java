@@ -10,7 +10,7 @@ public class Card {
   }
 
   public String render() {
-    return String.format("%s of %s", suit, value);
+    return String.format("%s of %s", suit.getSymbol(), value.getName());
   }
 
   public int getValue() {

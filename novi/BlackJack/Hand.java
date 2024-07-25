@@ -24,8 +24,11 @@ public class Hand {
 
   public String render() {
     StringBuilder output = new StringBuilder();
-    for (Card card : cards) {
-      output.append(card.render());
+    for (int i = 0; i < cards.size(); i++) {
+      if (i >= 1) {
+        output.append(" & ");
+      }
+      output.append(cards.get(i).render());
     }
     return output.toString();
   }
