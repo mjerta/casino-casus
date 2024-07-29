@@ -1,54 +1,32 @@
 package novi.BlackJack;
 
+import novi.Game;
+
 import java.util.Scanner;
 
-public class BlackjackGame {
-  private final Scanner inputScanner;
-  private Deck deck;
-  private Player player;
-  private Dealer dealer;
+public abstract class BlackjackGame implements Game {
+  protected final Scanner inputScanner;
+  protected Deck deck;
+  protected Player player;
+  protected Dealer dealer;
   boolean gameIsRunning;
 
-  public BlackjackGame(Scanner inputScanner) {
+  public BlackjackGame(Scanner inputScanner, Deck deck) {
     this.inputScanner = inputScanner;
+    this.deck = deck;
   }
 
   public void playGame() {
+    printOutIntro();
     resetGame();
     while (gameIsRunning) {
       runRound();
     }
   }
 
-  public void runRound() {
-    if (dealer.isBust() || dealer.isStaying() && dealer.getHandvalue() < player.getHandvalue()) {
-      createExpance();
-      System.out.println("You won!!");
-      renderOutFullGameStatus();
-      chooseToPlayAgain();
-      return;
-    }
-    if (player.isBust() || player.isStaying() && player.getHandvalue() <= dealer.getHandvalue()) {
-      createExpance();
-      System.out.println("You lost buddy!");
-      renderOutFullGameStatus();
-      chooseToPlayAgain();
-      return;
-    }
-    if (!player.isStaying()) {
-      renderOutStatusPlayer();
-      perfomMovePlayer();
-    }
-    if (!dealer.isStaying() && !player.isBust()) {
-      renderOutStatusDealer();
-      try {
-        Thread.sleep(3000);
-      } catch (InterruptedException e) {
-        System.out.println("Tread was interrupted.");
-      }
-      dealer.performMove(deck);
-    }
-  }
+  public abstract void printOutIntro();
+
+  public abstract void runRound();
 
   public void renderOutFullGameStatus() {
     renderOutStatusPlayer();
@@ -100,7 +78,6 @@ public class BlackjackGame {
   }
 
   public void resetGame() {
-    this.deck = new Deck();
     this.player = new Player();
     this.dealer = new Dealer();
     // the deck will be shuffled;

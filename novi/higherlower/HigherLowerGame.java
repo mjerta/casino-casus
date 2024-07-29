@@ -1,10 +1,13 @@
 package novi.higherlower;
 
+import novi.Game;
+import novi.GameCollection;
+
 import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class HigherLowerGame {
+public class HigherLowerGame implements Game {
   private final Scanner inputScanner;
   private final Random random;
 
