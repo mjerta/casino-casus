@@ -5,7 +5,7 @@ import novi.Game;
 import java.util.Scanner;
 
 public abstract class BlackjackGame implements Game {
-  protected final Scanner inputScanner;
+  private final Scanner inputScanner;
   protected Deck deck;
   protected Player player;
   protected Dealer dealer;

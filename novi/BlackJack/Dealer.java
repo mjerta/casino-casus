@@ -17,7 +17,7 @@ public class Dealer {
     }
     else {
       staying = true;
-      System.out.println("The player is staying!");
+      System.out.println("The dealer is staying!");
       System.out.println("The total value stayed the same: " + getHandvalue()  + "\n");
     }
   }
