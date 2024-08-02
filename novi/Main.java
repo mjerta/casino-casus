@@ -6,17 +6,16 @@ import novi.BlackJack.BlackjackGame;
 import novi.BlackJack.LowDeckBlackJack;
 import novi.BlackJack.SimpleBlackJack;
 import novi.higherlower.HigherLowerGame;
+import novi.slotmachines.SlotMachineGame;
 
 public class Main {
 
   public static void main(String[] args) {
     Scanner inputScanner = new Scanner(System.in);
+    SlotMachineGame slotMachineGame = new SlotMachineGame(inputScanner);
     HigherLowerGame higherLowerGame = new HigherLowerGame(inputScanner);
     BlackjackGame simpleBlackJack = new SimpleBlackJack(inputScanner);
     BlackjackGame lowDeckBlackJack = new LowDeckBlackJack(inputScanner);
-    GameCollection.INSTANCE.addGame("Higher or Lower", higherLowerGame);
-    GameCollection.INSTANCE.addGame("Simple black jack", simpleBlackJack);
-    GameCollection.INSTANCE.addGame("Low deck blackJack", lowDeckBlackJack);
     chooseGame(inputScanner);
   }
 

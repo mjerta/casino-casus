@@ -8,6 +8,7 @@ public class SimpleBlackJack extends BlackjackGame {
 
   public SimpleBlackJack(Scanner inputScanner) {
     super(inputScanner, new SimpleDeck());
+    GameCollection.INSTANCE.addGame("Simple blackjack", this);
   }
 
   @Override

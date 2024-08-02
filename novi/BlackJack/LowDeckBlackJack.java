@@ -7,6 +7,9 @@ import java.util.Scanner;
 public class LowDeckBlackJack extends BlackjackGame {
   public LowDeckBlackJack(Scanner inputScanner) {
     super(inputScanner, new LowDeck());
+    GameCollection.INSTANCE.addGame("Low deck blackjack", this);
+
+
   }
 
   @Override

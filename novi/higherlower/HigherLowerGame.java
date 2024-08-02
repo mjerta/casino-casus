@@ -14,6 +14,7 @@ public class HigherLowerGame implements Game {
   public HigherLowerGame(Scanner inputScanner) {
     this.inputScanner = inputScanner;
     this.random = new Random();
+    GameCollection.INSTANCE.addGame("Higher or Lower", this);
   }
 
   public void playGame() {
