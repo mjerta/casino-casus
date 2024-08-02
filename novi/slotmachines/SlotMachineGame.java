@@ -24,15 +24,9 @@ public class SlotMachineGame implements Game {
     gameIsFinished = false;
     String choise = "";
     while (!gameIsFinished) {
-      System.out.println("Which game you want to play?");
-      System.out.println("x: choose to exit");
-      GameCollection.INSTANCE.printSlotMachineGames();
-      choise = inputScanner.nextLine();
-      if(choise.equals("x")) {
-        System.out.println("See you next time at the slotmachines!\n");
-        gameIsFinished = true;
-        break;
-      }
+      choise = gamePicker(choise);
+      if (exitTheGameOrNot(choise)) break;
+
       for (SlotMachine slotMachine : slotMachines) {
         if (GameCollection.INSTANCE.getSlotMachine(Integer.parseInt(choise)).equals(slotMachine)) {
           reelerIsFinished = false;
@@ -54,6 +48,22 @@ public class SlotMachineGame implements Game {
         }
       }
     }
+  }
+
+  private boolean exitTheGameOrNot(String choise) {
+    if(choise.equals("x")) {
+      System.out.println("See you next time at the slotmachines!\n");
+      return true;
+    }
+    return false;
+  }
+
+  public String gamePicker(String choise) {
+    System.out.println("Which game you want to play?");
+    System.out.println("x: choose to exit");
+    GameCollection.INSTANCE.printSlotMachineGames();
+    choise = inputScanner.nextLine();
+      return choise;
   }
 
   public void insertCoin(SlotMachine slotMachine) {
