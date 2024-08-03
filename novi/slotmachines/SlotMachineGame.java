@@ -22,48 +22,54 @@ public class SlotMachineGame implements Game {
   @Override
   public void playGame() {
     gameIsFinished = false;
-    String choise = "";
     while (!gameIsFinished) {
-      choise = gamePicker(choise);
+      String choise = gamePicker();
       if (exitTheGameOrNot(choise)) break;
 
-      for (SlotMachine slotMachine : slotMachines) {
-        if (GameCollection.INSTANCE.getSlotMachine(Integer.parseInt(choise)).equals(slotMachine)) {
-          reelerIsFinished = false;
-          while (!reelerIsFinished) {
-            int slotMachinePrice = slotMachine.getRollPrice();
-            slotMachine.renderIntro();
-            System.out.println(slotMachine.renderWinningConditions());
-            if (playerCoins >= slotMachinePrice) {
-              insertCoin(slotMachine);
-              renderGameFlowBeforeHandle(inputScanner, slotMachinePrice);
-              int result = executeHandle(slotMachine);
-              validateHandle(slotMachine, result, choise, slotMachinePrice);
-            }
-            else {
-              printOutNoCoinsAnymore(false);
-              reelerIsFinished = true;
-            }
-          }
-        }
+      SlotMachine chosenSlotMachine = GameCollection.INSTANCE.getSlotMachine(Integer.parseInt(choise));
+      if (chosenSlotMachine != null) {
+        playSlotMachine(chosenSlotMachine);
       }
     }
   }
 
+  private void playSlotMachine(SlotMachine chosenSlotMachine) {
+    reelerIsFinished = false;
+    while (!reelerIsFinished) {
+      int slotMachinePrice = chosenSlotMachine.getRollPrice();
+      chosenSlotMachine.renderIntro();
+      System.out.println(chosenSlotMachine.renderWinningConditions());
+      if (playerCoins >= slotMachinePrice) {
+        processSlotMachinePlay(chosenSlotMachine, slotMachinePrice);
+      }
+      else {
+        printNoCoinsLeft(false);
+        reelerIsFinished = true;
+      }
+    }
+  }
+
+  private void processSlotMachinePlay(SlotMachine slotMachine, int slotMachinePrice) {
+    insertCoin(slotMachine);
+    renderGameFlowBeforeHandle(inputScanner, slotMachinePrice);
+    var result = slotMachine.roll();
+    System.out.println(slotMachine.render());
+    validateHandle(result, slotMachinePrice);
+  }
+
   private boolean exitTheGameOrNot(String choise) {
-    if(choise.equals("x")) {
+    if (choise.equals("x")) {
       System.out.println("See you next time at the slotmachines!\n");
       return true;
     }
     return false;
   }
 
-  public String gamePicker(String choise) {
+  public String gamePicker() {
     System.out.println("Which game you want to play?");
     System.out.println("x: choose to exit");
     GameCollection.INSTANCE.printSlotMachineGames();
-    choise = inputScanner.nextLine();
-      return choise;
+    return inputScanner.nextLine();
   }
 
   public void insertCoin(SlotMachine slotMachine) {
@@ -78,22 +84,15 @@ public class SlotMachineGame implements Game {
 
   }
 
-  public void renderGameFlowAfterHandle(String choise) {
+  public void renderGameFlowAfterHandle() {
     System.out.println("Press n if you want to stop, or any other key if you want to continue");
-    choise = inputScanner.nextLine();
+    String choise = inputScanner.nextLine();
     if (choise.equals("n")) {
       reelerIsFinished = true;
     }
   }
 
-  public int executeHandle(SlotMachine slotMachine) {
-    var result = slotMachine.roll();
-    var reel = slotMachine.render();
-    System.out.println(reel);
-    return result;
-  }
-
-  public void printOutNoCoinsAnymore(Boolean noCoinsAtAll) {
+  public void printNoCoinsLeft(Boolean noCoinsAtAll) {
     System.out.println("You did not have enough coins to play this game");
     if (!noCoinsAtAll) {
       System.out.println("Please, try another game");
@@ -111,19 +110,19 @@ public class SlotMachineGame implements Game {
     System.out.println("You did not get any points");
   }
 
-  public void validateHandle(SlotMachine slotMachine, int wonAmmountOfCoins, String choise, int priceOfGame) {
+  public void validateHandle(int wonAmmountOfCoins, int priceOfGame) {
     if (wonAmmountOfCoins > 0) {
       printOutWinningMessage(wonAmmountOfCoins);
       return;
     }
     if (playerCoins < priceOfGame) {
-      printOutNoCoinsAnymore(true);
+      printNoCoinsLeft(true);
       reelerIsFinished = true;
       gameIsFinished = true;
     }
     else {
       printOutLosingMessage();
-      renderGameFlowAfterHandle(choise);
+      renderGameFlowAfterHandle();
     }
   }
 }
